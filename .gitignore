@@ -1,0 +1,21 @@
+# Acquired third-party data and source copies are intentionally NOT committed.
+# Each is documented with a retrieval link in the nearest SOURCES.md; pull it
+# from there. Rationale: do not bake a redistribution decision into this repo
+# before licensing is checked. Webb's own copy is email-gated; the public
+# mirror is EIG's redistribution decision, not one this repo inherits.
+
+# Datasets acquired from third parties
+/data/raw/*.xlsx
+/data/raw/webb_exposure_by_occ1990dd_lswt2010.csv
+
+# Paper archives (arXiv HTML/PDF)
+/data/raw/gdpval_paper/
+
+# Evidence copies saved during the feasibility check
+/sources/webb-ai/*.pdf
+/sources/webb-ai/*.html
+/sources/webb-ai/*.csv
+
+# Local tooling
+__pycache__/
+*.pyc

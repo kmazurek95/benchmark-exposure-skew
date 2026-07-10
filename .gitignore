@@ -1,12 +1,12 @@
-# Datasets acquired from third parties
-data/raw/*
-!data/raw/SOURCES.md
-!data/raw/gdpval_44_occupations_verbatim.csv
+# Third-party data and source archives stay local. Nothing under these
+# directories is tracked; each dataset's public origin is recorded in
+# FEASIBILITY.md, so everything is re-fetchable from the primary source.
+data/
+sources/
 
-sources/aioe/*
-!sources/aioe/SOURCES.md
-sources/webb-ai/*
-!sources/webb-ai/SOURCES.md
+# Internal planning documents
+Exposure_Skew_Foundation_Sheet.md
+Exposure Skew Foundation Sheet.md
 
 # Scratch, environments, OS noise
 scratchpad/

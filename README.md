@@ -32,6 +32,6 @@ descriptive: it shows what a frame contains, and says nothing causal about what 
 
 ## Data
 
-Third-party data is not redistributed here. The manifests under `data/raw/` and `sources/` record
-every file, its origin, its classification vintage, and what could not be obtained, so anything used
-can be re-fetched from the primary source.
+Third-party data is not redistributed here, and nothing under `data/` or `sources/` is tracked.
+[FEASIBILITY.md](FEASIBILITY.md) records each dataset's public origin and classification vintage, so
+anything used can be re-fetched from the primary source.

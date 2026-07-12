@@ -8,7 +8,7 @@ sheet were not modified.
 **Environment caveat that shaped the work:** `www.bls.gov` returns an Akamai **HTTP 403 "Access
 Denied"** to this sandbox (both `curl` with many header variants and the hosted WebFetch). So BLS
 files could not be pulled directly here; BLS *facts* were confirmed from BLS-authored text surfaced
-in search results, and BLS *code lists* were verified via reachable primary mirrors (O*NET Resource
+in search results, and BLS *code lists* were verified via reachable primary mirrors (O\*NET Resource
 Center, U.S. Census Bureau). Every such substitution is flagged inline. Data files and provenance notes live locally under
 `data/` and `sources/` and are deliberately untracked in this repo; each dataset's public origin and
 retrieval route appears inline below and in the Datasets table.
@@ -21,7 +21,7 @@ retrieval route appears inline below and in the Datasets table.
 |---|---|---|
 | **1** | Crosswalk hit rate (GDPval 44 → SOC) | **43 clean / 1 judgment call / 0 fail** at GDPval's native 2018-SOC vintage. The one judgment call is *Buyers and Purchasing Agents* (an aggregate of 3 detailed codes). The rate degrades to **~4 judgment calls** once you crosswalk to a 2010-SOC exposure measure, all resolvable via the official BLS 2010↔2018 crosswalk. |
 | **2** | Webb data usable, SOC-keyed, public? | **Public: yes. SOC-keyed: NO.** A real, un-gated CSV exists (341 occupations, separate `pct_ai`/`pct_software`/`pct_robot`) but it is keyed to **`occ1990dd`** (1990 Census harmonized codes), not SOC. Using it requires a self-built occ1990dd→SOC crosswalk for which **no official BLS bridge exists**. |
-| **3** | SOC vintage alignment | **AIOE = 2010 SOC. BLS OES = 2018 SOC. Webb = neither** (distributed as occ1990dd; *constructed* on O*NET-SOC 2010). GDPval's own frame = 2018 SOC. Official **BLS 2010↔2018 SOC crosswalk exists**; **no official occ1990dd↔SOC crosswalk exists.** |
+| **3** | SOC vintage alignment | **AIOE = 2010 SOC. BLS OES = 2018 SOC. Webb = neither** (distributed as occ1990dd; *constructed* on O\*NET-SOC 2010). GDPval's own frame = 2018 SOC. Official **BLS 2010↔2018 SOC crosswalk exists**; **no official occ1990dd↔SOC crosswalk exists.** |
 
 **Verdict (one line):** The analysis is practical as specified **except that Webb, which the
 pre-registration makes load-bearing, is not SOC-keyed**, and bridging it to SOC is the single
@@ -38,14 +38,14 @@ archived locally under `data/raw/gdpval_paper/` (untracked). (9 sectors × 5, mi
 
 **Why the mapping is easy at first and hard later: the key structural fact.** GDPval did *not*
 invent occupation labels. Per the paper's appendix, it used the **May 2024 OEWS** (which is on the
-**2018 SOC**) for the occupation universe and O*NET SOC-6 for tasks. So the 44 titles are already
+**2018 SOC**) for the occupation universe and O\*NET SOC-6 for tasks. So the 44 titles are already
 2018-SOC-native; they are abbreviated display forms of standard SOC titles. Mapping the *name* to a *2018 SOC
 code* is therefore nearly 1:1. The difficulty the pre-registration worries about is real but lives one
 step later: the **exposure measures are older vintages**, so the operative crosswalk is
 GDPval(2018 SOC) → AIOE(2010 SOC) / Webb(occ1990dd).
 
 **Verification method (no codes asserted from memory).** Each of the 44 titles was matched
-programmatically against the **O*NET-SOC 2019 taxonomy** (867 codes; the 2018-SOC-based authoritative
+programmatically against the **O\*NET-SOC 2019 taxonomy** (867 codes; the 2018-SOC-based authoritative
 list, used because `bls.gov/soc/2018` was blocked). 39 matched exactly; 3 matched modulo display
 abbreviation; 2 were inspected by hand against the taxonomy and the Census 2010→2018 crosswalk.
 
@@ -71,7 +71,7 @@ are). Each needs a documented reconciliation via the official BLS 2010↔2018 cr
 | GDPval occupation | 2018 SOC | Why it's a judgment call vs a 2010-SOC measure |
 |---|---|---|
 | **Software Developers** | 15-1252 | 2018 **merge** of 2010 `15-1132` (Applications) + `15-1133` (Systems Software). Must combine two AIOE scores. |
-| **Project Management Specialists** | 13-1082 | **New in 2018**; no 2010 detailed code. In 2010 these sat inside `13-1199` "Business Operations Specialists, All Other". Requires assignment/imputation — the closest thing to a genuine miss. |
+| **Project Management Specialists** | 13-1082 | **New in 2018**; no 2010 detailed code. In 2010 these sat inside `13-1199` "Business Operations Specialists, All Other". Requires assignment/imputation, the closest thing to a genuine miss. |
 | **News Analysts, Reporters, and Journalists** | 27-3023 | 2018 **merge** of 2010 `27-3021` (Broadcast News Analysts) + `27-3022` (Reporters and Correspondents). Must combine two AIOE scores. |
 | **Administrative Services Managers** | 11-3012 | 2010 `11-3011` **split** into 11-3012 + 11-3013 (Facilities Managers). Near-clean: inherit `11-3011`'s score (many-to-one). |
 
@@ -95,7 +95,7 @@ The full 44-row verified mapping table is in [Appendix A](#appendix-a-full-44-oc
 publicly downloadable form? **Answer: publicly downloadable YES; SOC-keyed NO.**
 
 - **A usable public file exists and was downloaded and verified.** `exposure_by_occ1990dd_lswt2010.csv`
-  (21 KB, **341 occupations**, 338 with a non-blank AI score). It carries three separate 1–100 measures:
+  (21 KB, **341 occupations**, 338 with a non-blank AI score). It carries three separate 1-100 measures:
   `pct_ai`, `pct_software`, `pct_robot`. Saved locally to
   `data/raw/webb_exposure_by_occ1990dd_lswt2010.csv` (untracked).
 - **It is NOT SOC-keyed.** The file's key is **`occ1990dd`**: Dorn (2009) / Deming (2017) harmonized
@@ -106,12 +106,12 @@ publicly downloadable form? **Answer: publicly downloadable YES; SOC-keyed NO.**
   **https://github.com/EIG-Research/AI-unemployment** (its README cites "Webb (2022) … FILE NAME:
   exposure_by_occ1990dd_lswt2010.csv"). The public copy is what was retrieved; contents confirmed
   genuine (columns/keying match the paper).
-- **No SOC-keyed public copy was found.** NOT CONFIRMED that Webb posts any O*NET-SOC- or SOC-keyed
+- **No SOC-keyed public copy was found.** NOT CONFIRMED that Webb posts any O\*NET-SOC- or SOC-keyed
   file: his Notion page is a JS redirect the agent could not fetch, and no ICPSR, Harvard Dataverse, or
   journal replication package for the measure was located. What tried and failed is logged in the
   local webb-ai source notes (untracked).
-- **Underlying vintage.** Scores were *constructed* on **O*NET v22.0 (= O*NET-SOC 2010)**; the paper states: "I use
-  the replication code provided for Acemoglu and Autor (2011) … for O*NET v22.0"; "O*NET describes 964
+- **Underlying vintage.** Scores were *constructed* on **O\*NET v22.0 (= O\*NET-SOC 2010)**; the paper states: "I use
+  the replication code provided for Acemoglu and Autor (2011) … for O\*NET v22.0"; "O\*NET describes 964
   occupations." But Webb *distributes* only the occ1990dd aggregation.
 
 **Practical consequence:** to use Webb in this SOC-keyed study you must build an **occ1990dd → SOC**
@@ -126,9 +126,9 @@ not a same-system vintage update, and it has no official BLS backing (see Q3).
 
 | Source | Classification / vintage | Level | Coverage | How confirmed |
 |---|---|---|---|---|
-| **GDPval frame** (the 44) | **2018 SOC** | 6-digit (via May 2024 OEWS) | 44 | Paper appendix: "May 2024 OEWS", O*NET SOC-6 |
-| **AIOE** (Felten, Raj & Seamans) | **2010 SOC** (O*NET-SOC 2010) | 6-digit detailed | **774** occupations | Parsed the file: contains 2010-only 15-1132/15-1133/27-3021/27-3022; lacks 2018-only 15-1252/15-1211/27-3023 |
-| **Webb** | **Not SOC**; distributed as **occ1990dd** (1990 Census harmonized); *constructed* on O*NET-SOC 2010 | occ1990dd (~341 cats) | 341 (338 scored) | Parsed the file (no SOC column); paper quotes O*NET v22.0 |
+| **GDPval frame** (the 44) | **2018 SOC** | 6-digit (via May 2024 OEWS) | 44 | Paper appendix: "May 2024 OEWS", O\*NET SOC-6 |
+| **AIOE** (Felten, Raj & Seamans) | **2010 SOC** (O\*NET-SOC 2010) | 6-digit detailed | **774** occupations | Parsed the file: contains 2010-only 15-1132/15-1133/27-3021/27-3022; lacks 2018-only 15-1252/15-1211/27-3023 |
+| **Webb** | **Not SOC**; distributed as **occ1990dd** (1990 Census harmonized); *constructed* on O\*NET-SOC 2010 | occ1990dd (~341 cats) | 341 (338 scored) | Parsed the file (no SOC column); paper quotes O\*NET v22.0 |
 | **BLS OES / OEWS employment** | **2018 SOC** (since May 2021) | 6-digit detailed | **~830** occupational categories | BLS `methods_24.pdf` + OEWS FAQ via search (BLS site Akamai-blocked from sandbox) |
 
 **Vintages actually present:** 2018 SOC (GDPval frame, BLS OES) and 2010 SOC (AIOE), plus the
@@ -155,24 +155,24 @@ non-SOC **occ1990dd** system (Webb).
 |---|---|---|---|---|
 | GDPval paper | `data/raw/gdpval_paper/gdpval_2510.04374v1.{html,pdf}` | https://arxiv.org/abs/2510.04374 | frame = 2018 SOC | acquired |
 | GDPval 44 occupations (extract) | `data/raw/gdpval_44_occupations_verbatim.csv` | (from Table 1) | 2018 SOC titles | extracted verbatim |
-| O*NET-SOC 2019 taxonomy | `data/raw/onetsoc2019.xlsx` | https://www.onetcenter.org/taxonomy/2019/list/?fmt=xlsx | 2018-SOC basis | acquired (BLS-SOC substitute) |
+| O\*NET-SOC 2019 taxonomy | `data/raw/onetsoc2019.xlsx` | https://www.onetcenter.org/taxonomy/2019/list/?fmt=xlsx | 2018-SOC basis | acquired (BLS-SOC substitute) |
 | Census 2018 occ list + 2010→2018 crosswalk | `data/raw/census2018_occ_crosswalk.xlsx` | https://www2.census.gov/programs-surveys/demo/guidance/industry-occupation/2018-occupation-code-list-and-crosswalk.xlsx | 2010↔2018 | acquired |
 | **AIOE** (occupation/industry/geo) | `data/raw/aioe_felten2021_dataappendix.xlsx` (+ 2 generative-AI files) | https://github.com/AIOE-Data/AIOE | **2010 SOC**, 6-digit, 774 occ | acquired & verified |
 | **Webb** exposure | `data/raw/webb_exposure_by_occ1990dd_lswt2010.csv` | https://github.com/EIG-Research/AI-unemployment (un-gated mirror) | **occ1990dd**, 341 occ | acquired & verified; **not SOC** |
-| BLS OEWS May 2024 national | — | https://www.bls.gov/oes/special-requests/oesm24nat.zip | 2018 SOC, ~830 occ | **NOT acquired** — Akamai 403 from sandbox (see below) |
-| BLS 2010→2018 SOC crosswalk (official) | — | https://www.bls.gov/soc/2018/crosswalks.htm | 2010↔2018 | confirmed to exist; not downloaded (Akamai); Census equivalent used |
+| BLS OEWS May 2024 national | - | https://www.bls.gov/oes/special-requests/oesm24nat.zip | 2018 SOC, ~830 occ | **NOT acquired**, Akamai 403 from sandbox (see below) |
+| BLS 2010→2018 SOC crosswalk (official) | - | https://www.bls.gov/soc/2018/crosswalks.htm | 2010↔2018 | confirmed to exist; not downloaded (Akamai); Census equivalent used |
 
 ---
 
 ## Attempt log / dead ends (the deliverable too)
 
 1. **GDPval occupation list.** First pull (WebFetch summary) abbreviated the titles; re-pulled the raw
-   HTML and extracted all 44 verbatim from Table 1. The paper's appendix "Detail about O*NET Data Source"
-   was the key find (SOC-6 vs SOC-4 handling; the 12 O*NET-29.0 splits).
+   HTML and extracted all 44 verbatim from Table 1. The paper's appendix "Detail about O\*NET Data Source"
+   was the key find (SOC-6 vs SOC-4 handling; the 12 O\*NET-29.0 splits).
 2. **BLS OEWS May 2024 national ZIP.** `curl` (multiple UA/header variants) and WebFetch both got a
    1,325-byte Akamai "Access Denied" (HTTP 403). Environment/bot block, not a bad link; retrievable from a
    normal browser. Not decisive for feasibility (microdata is an analysis-phase input). Blocked from the sandbox.
-3. **BLS SOC 2018 definitions / crosswalk XLSX.** Same Akamai 403. Worked around with the O*NET-SOC 2019
+3. **BLS SOC 2018 definitions / crosswalk XLSX.** Same Akamai 403. Worked around with the O\*NET-SOC 2019
    taxonomy and the Census 2010→2018 crosswalk (both reachable, both primary). Substituted.
 4. **BLS OEWS SOC vintage.** Could not fetch the page; confirmed "2018 SOC since May 2021, ~830 categories"
    from BLS-authored search snippets (`methods_24.pdf`, OEWS FAQ). Confirmed via search.
@@ -195,7 +195,7 @@ is standard 2018-SOC data (blocked only by this sandbox's Akamai filter, not by 
 with an **official BLS 2010↔2018 crosswalk** that cleanly reconciles AIOE↔OES↔GDPval, so the AIOE arm of
 the pre-registered "skew under both measures" rule is fully executable. The blocking issue is **Webb**:
 the pre-registration makes Webb load-bearing (the finding is "substantive" *only* if the skew appears
-under **both** AIOE **and** Webb, because Webb is the non-O*NET check against a mechanical artifact), yet
+under **both** AIOE **and** Webb, because Webb is the non-O\*NET check against a mechanical artifact), yet
 Webb is **not published in SOC-keyed form**, only as `occ1990dd`, a different 1990-Census-based
 classification with **no official BLS crosswalk to SOC**. This does not make the analysis impossible
 (the file is public and usable, and Yale's Budget Lab has demonstrated an occ1990dd→SOC-2018 mapping),
@@ -205,7 +205,7 @@ Phase-2 timeline and (b) inject enough mapping error to weaken the credibility o
 the very robustness the pre-registration relies on. **Recommendation for the decision you're about to
 make:** the project is worth proceeding with, but treat the **occ1990dd→SOC crosswalk for Webb** as the
 gating task and its error as a first-class limitation; if that bridge proves too lossy to trust, the
-pre-registration's own §3 fallback (Eloundou et al., with the explicit caveat that it shares O*NET
+pre-registration's own §3 fallback (Eloundou et al., with the explicit caveat that it shares O\*NET
 structure and thus *weakens* the check) is the specified contingency, and it should be invoked openly
 rather than presenting a forced occ1990dd→SOC mapping as clean.
 
@@ -213,56 +213,56 @@ rather than presenting a forced occ1990dd→SOC mapping as clean.
 
 ## Appendix A: full 44-occupation SOC mapping (verified)
 
-SOC codes verified against the O*NET-SOC 2019 taxonomy (2018-SOC basis). Status is at GDPval's native
+SOC codes verified against the O\*NET-SOC 2019 taxonomy (2018-SOC basis). Status is at GDPval's native
 2018 vintage; the "2010-xwalk note" column flags what changes when mapping to AIOE (2010 SOC).
 
 | # | Sector | GDPval title (verbatim) | 2018 SOC | Status | 2010-xwalk note |
 |---|---|---|---|---|---|
-| 1 | Real Estate | Property/RE/Community Association Managers | 11-9141 | clean | — |
-| 2 | Real Estate | Counter and Rental Clerks | 41-2021 | clean | — |
-| 3 | Real Estate | Real Estate Sales Agents | 41-9022 | clean | — |
-| 4 | Real Estate | Real Estate Brokers | 41-9021 | clean | — |
-| 5 | Real Estate | Concierges | 39-6012 | clean | — |
-| 6 | Manufacturing | First-Line Supervisors of Production and Operating Workers | 51-1011 | clean | — |
+| 1 | Real Estate | Property/RE/Community Association Managers | 11-9141 | clean | - |
+| 2 | Real Estate | Counter and Rental Clerks | 41-2021 | clean | - |
+| 3 | Real Estate | Real Estate Sales Agents | 41-9022 | clean | - |
+| 4 | Real Estate | Real Estate Brokers | 41-9021 | clean | - |
+| 5 | Real Estate | Concierges | 39-6012 | clean | - |
+| 6 | Manufacturing | First-Line Supervisors of Production and Operating Workers | 51-1011 | clean | - |
 | 7 | Manufacturing | **Buyers and Purchasing Agents** | 13-1020 (broad) | **judgment** | aggregate of 13-1021/22/23 (all in AIOE) |
 | 8 | Manufacturing | Shipping, Receiving, and Inventory Clerks | 43-5071 | clean | same code; 2010 title "…Traffic Clerks" |
-| 9 | Manufacturing | Industrial Engineers | 17-2112 | clean | — |
-| 10 | Manufacturing | Mechanical Engineers | 17-2141 | clean | — |
+| 9 | Manufacturing | Industrial Engineers | 17-2112 | clean | - |
+| 10 | Manufacturing | Mechanical Engineers | 17-2141 | clean | - |
 | 11 | Prof/Sci/Tech | **Software Developers** | 15-1252 | clean (2018) | **judgment** vs 2010: = 15-1132 + 15-1133 |
-| 12 | Prof/Sci/Tech | Lawyers | 23-1011 | clean | — |
-| 13 | Prof/Sci/Tech | Accountants and Auditors | 13-2011 | clean | — |
-| 14 | Prof/Sci/Tech | Computer and Information Systems Managers | 11-3021 | clean | — |
+| 12 | Prof/Sci/Tech | Lawyers | 23-1011 | clean | - |
+| 13 | Prof/Sci/Tech | Accountants and Auditors | 13-2011 | clean | - |
+| 14 | Prof/Sci/Tech | Computer and Information Systems Managers | 11-3021 | clean | - |
 | 15 | Prof/Sci/Tech | **Project Management Specialists** | 13-1082 | clean (2018) | **judgment** vs 2010: new; sits in 13-1199 |
-| 16 | Government | Compliance Officers | 13-1041 | clean | — |
+| 16 | Government | Compliance Officers | 13-1041 | clean | - |
 | 17 | Government | Administrative Services Managers | 11-3012 | clean (2018) | near-clean vs 2010: from 11-3011 |
-| 18 | Government | Child, Family, and School Social Workers | 21-1021 | clean | — |
-| 19 | Government | First-Line Supervisors of Police and Detectives | 33-1012 | clean | — |
-| 20 | Government | Recreation Workers | 39-9032 | clean | — |
-| 21 | Health Care | Registered Nurses | 29-1141 | clean | — |
-| 22 | Health Care | First-Line Supervisors of Office/Admin Support | 43-1011 | clean | — |
-| 23 | Health Care | Medical & Health Services Managers | 11-9111 | clean | — |
-| 24 | Health Care | Nurse Practitioners | 29-1171 | clean | — |
-| 25 | Health Care | Medical Secretaries & Admin Assistants | 43-6013 | clean | — |
-| 26 | Finance | Financial Managers | 11-3031 | clean | — |
-| 27 | Finance | Customer Service Representatives | 43-4051 | clean | — |
-| 28 | Finance | Securities, Commodities, and Financial Services Sales Agents | 41-3031 | clean | — |
-| 29 | Finance | Personal Financial Advisors | 13-2052 | clean | — |
+| 18 | Government | Child, Family, and School Social Workers | 21-1021 | clean | - |
+| 19 | Government | First-Line Supervisors of Police and Detectives | 33-1012 | clean | - |
+| 20 | Government | Recreation Workers | 39-9032 | clean | - |
+| 21 | Health Care | Registered Nurses | 29-1141 | clean | - |
+| 22 | Health Care | First-Line Supervisors of Office/Admin Support | 43-1011 | clean | - |
+| 23 | Health Care | Medical & Health Services Managers | 11-9111 | clean | - |
+| 24 | Health Care | Nurse Practitioners | 29-1171 | clean | - |
+| 25 | Health Care | Medical Secretaries & Admin Assistants | 43-6013 | clean | - |
+| 26 | Finance | Financial Managers | 11-3031 | clean | - |
+| 27 | Finance | Customer Service Representatives | 43-4051 | clean | - |
+| 28 | Finance | Securities, Commodities, and Financial Services Sales Agents | 41-3031 | clean | - |
+| 29 | Finance | Personal Financial Advisors | 13-2052 | clean | - |
 | 30 | Finance | Financial and Investment Analysts | 13-2051 | clean | minor scope shift vs 2010 (13-2054 split off) |
-| 31 | Retail | General & Operations Managers | 11-1021 | clean | — |
-| 32 | Retail | 1st-Line Supervisors of Retail Sales Workers | 41-1011 | clean | — |
-| 33 | Retail | Pharmacists | 29-1051 | clean | — |
-| 34 | Retail | Private Detectives & Investigators | 33-9021 | clean | — |
-| 35 | Wholesale | Sales Reps, Wholesale & Mfg (Except Tech/Scientific) | 41-4012 | clean | — |
-| 36 | Wholesale | Sales Managers | 11-2022 | clean | — |
-| 37 | Wholesale | Sales Reps, Wholesale & Mfg (Tech/Scientific) | 41-4011 | clean | — |
-| 38 | Wholesale | 1st-Line Supervisors of Non-Retail Sales Workers | 41-1012 | clean | — |
-| 39 | Wholesale | Order Clerks | 43-4151 | clean | — |
-| 40 | Information | Producers & Directors | 27-2012 | clean | — |
-| 41 | Information | Editors | 27-3041 | clean | — |
+| 31 | Retail | General & Operations Managers | 11-1021 | clean | - |
+| 32 | Retail | 1st-Line Supervisors of Retail Sales Workers | 41-1011 | clean | - |
+| 33 | Retail | Pharmacists | 29-1051 | clean | - |
+| 34 | Retail | Private Detectives & Investigators | 33-9021 | clean | - |
+| 35 | Wholesale | Sales Reps, Wholesale & Mfg (Except Tech/Scientific) | 41-4012 | clean | - |
+| 36 | Wholesale | Sales Managers | 11-2022 | clean | - |
+| 37 | Wholesale | Sales Reps, Wholesale & Mfg (Tech/Scientific) | 41-4011 | clean | - |
+| 38 | Wholesale | 1st-Line Supervisors of Non-Retail Sales Workers | 41-1012 | clean | - |
+| 39 | Wholesale | Order Clerks | 43-4151 | clean | - |
+| 40 | Information | Producers & Directors | 27-2012 | clean | - |
+| 41 | Information | Editors | 27-3041 | clean | - |
 | 42 | Information | **News Analysts, Reporters, and Journalists** | 27-3023 | clean (2018) | **judgment** vs 2010: = 27-3021 + 27-3022 |
-| 43 | Information | Audio & Video Technicians | 27-4011 | clean | — |
-| 44 | Information | Film & Video Editors | 27-4032 | clean | — |
+| 43 | Information | Audio & Video Technicians | 27-4011 | clean | - |
+| 44 | Information | Film & Video Editors | 27-4032 | clean | - |
 
-*Codes are provisional feasibility output, verified against the O*NET-SOC 2019 taxonomy; the analysis
+*Codes are provisional feasibility output, verified against the O\*NET-SOC 2019 taxonomy; the analysis
 phase should re-verify against the authoritative BLS 2018 SOC definitions file and OEWS titles once
 `bls.gov` is reachable.*

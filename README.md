@@ -11,7 +11,11 @@ measures than the workforce does.
 
 ## Status
 
-Pre-registration only. No exposure data has been analyzed.
+Analysis complete. Tiers 1 and 2 are computed for both the economy-wide and the
+within-sector baseline; Tier 3 (Webb) is a documented null. The headline: GDPval's
+44 occupations cover 19.2% of US employment and sit at the 82nd wage percentile
+(73rd within their own nine sectors). [FINDINGS.md](FINDINGS.md) reports the
+results and their limits; the reproducible pipeline is in [src/](src/).
 
 [pre_registration.md](pre_registration.md) fixes the claim, the measures, the decision rule, and the
 interpretation of every possible outcome, including the null and the measurement-artifact result. It

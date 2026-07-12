@@ -7,6 +7,11 @@ sources/
 # Internal planning documents
 Exposure_Skew_Foundation_Sheet.md
 Exposure Skew Foundation Sheet.md
+_private/
+
+# Derived tables carrying third-party (AIOE / OEWS / Webb) per-occupation values
+# stay local; only aggregate results, our own mapping, code and figures are tracked.
+outputs/local/
 
 # Scratch, environments, OS noise
 scratchpad/

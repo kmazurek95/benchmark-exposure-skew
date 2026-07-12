@@ -1,0 +1,47 @@
+sector,sector_pct_gdp,gdpval_title,total_compensation_usd_billions,soc_2018,soc_2018_title_onet,status,broad_group,is_primary_row,note
+Real Estate and Rental and Leasing,13.8,Property/RE/Community Association Managers,24.54,11-9141,"Property, Real Estate, and Community Association Managers",clean,,True,
+Real Estate and Rental and Leasing,13.8,Counter and Rental Clerks,17.42,41-2021,Counter and Rental Clerks,clean,,True,
+Real Estate and Rental and Leasing,13.8,Real Estate Sales Agents,13.53,41-9022,Real Estate Sales Agents,clean,,True,
+Real Estate and Rental and Leasing,13.8,Real Estate Brokers,4.55,41-9021,Real Estate Brokers,clean,,True,
+Real Estate and Rental and Leasing,13.8,Concierges,1.8,39-6012,Concierges,clean,,True,
+Manufacturing,10.0,First-Line Supervisors of Production and Operating Workers,51.07,51-1011,First-Line Supervisors of Production and Operating Workers,clean,,True,
+Manufacturing,10.0,Buyers and Purchasing Agents,39.79,13-1021,"Buyers and Purchasing Agents, Farm Products",broad-detail,13-1020,True,2018 SOC broad group (no single detailed code). Aggregate the three detail codes by OEWS employment weight for any per-occupation measure.
+Manufacturing,10.0,Buyers and Purchasing Agents,39.79,13-1022,"Wholesale and Retail Buyers, Except Farm Products",broad-detail,13-1020,False,2018 SOC broad group (no single detailed code). Aggregate the three detail codes by OEWS employment weight for any per-occupation measure.
+Manufacturing,10.0,Buyers and Purchasing Agents,39.79,13-1023,"Purchasing Agents, Except Wholesale, Retail, and Farm Products",broad-detail,13-1020,False,2018 SOC broad group (no single detailed code). Aggregate the three detail codes by OEWS employment weight for any per-occupation measure.
+Manufacturing,10.0,"Shipping, Receiving, and Inventory Clerks",38.5,43-5071,"Shipping, Receiving, and Inventory Clerks",clean,,True,"2010 SOC title was 'Shipping, Receiving, and Traffic Clerks'; same code."
+Manufacturing,10.0,Industrial Engineers,37.79,17-2112,Industrial Engineers,clean,,True,
+Manufacturing,10.0,Mechanical Engineers,31.57,17-2141,Mechanical Engineers,clean,,True,
+"Professional, Scientific, and Technical Services",8.1,Software Developers,239.18,15-1252,Software Developers,clean,,True,2018 code. Bridging to 2010 AIOE = merge of 15-1132 + 15-1133.
+"Professional, Scientific, and Technical Services",8.1,Lawyers,136.66,23-1011,Lawyers,clean,,True,
+"Professional, Scientific, and Technical Services",8.1,Accountants and Auditors,135.44,13-2011,Accountants and Auditors,clean,,True,
+"Professional, Scientific, and Technical Services",8.1,Computer and Information Systems Managers,121.44,11-3021,Computer and Information Systems Managers,clean,,True,
+"Professional, Scientific, and Technical Services",8.1,Project Management Specialists,108.77,13-1082,Project Management Specialists,clean,,True,"New in 2018 SOC; in 2010 these sat inside 13-1199 (Business Operations Specialists, All Other). Bridging to 2010 AIOE requires imputation."
+Government,11.3,Compliance Officers,33.8,13-1041,Compliance Officers,clean,,True,
+Government,11.3,Administrative Services Managers,32.03,11-3012,Administrative Services Managers,clean,,True,2010 11-3011 split into 11-3012 + 11-3013; inherit 11-3011's 2010 score.
+Government,11.3,"Child, Family, and School Social Workers",24.1,21-1021,"Child, Family, and School Social Workers",clean,,True,
+Government,11.3,First-Line Supervisors of Police and Detectives,17.0,33-1012,First-Line Supervisors of Police and Detectives,clean,,True,
+Government,11.3,Recreation Workers,11.51,39-9032,Recreation Workers,clean,,True,
+Health Care and Social Assistance,7.6,Registered Nurses,323.05,29-1141,Registered Nurses,clean,,True,
+Health Care and Social Assistance,7.6,First-Line Supervisors of Office/Admin Support,107.02,43-1011,First-Line Supervisors of Office and Administrative Support Workers,clean,,True,
+Health Care and Social Assistance,7.6,Medical & Health Services Managers,77.93,11-9111,Medical and Health Services Managers,clean,,True,
+Health Care and Social Assistance,7.6,Nurse Practitioners,40.58,29-1171,Nurse Practitioners,clean,,True,
+Health Care and Social Assistance,7.6,Medical Secretaries & Admin Assistants,37.87,43-6013,Medical Secretaries and Administrative Assistants,clean,,True,
+Finance and Insurance,7.4,Financial Managers,147.74,11-3031,Financial Managers,clean,,True,
+Finance and Insurance,7.4,Customer Service Representatives,123.7,43-4051,Customer Service Representatives,clean,,True,
+Finance and Insurance,7.4,"Securities, Commodities, and Financial Services Sales Agents",52.14,41-3031,"Securities, Commodities, and Financial Services Sales Agents",clean,,True,
+Finance and Insurance,7.4,Personal Financial Advisors,43.33,13-2052,Personal Financial Advisors,clean,,True,
+Finance and Insurance,7.4,Financial and Investment Analysts,39.67,13-2051,Financial and Investment Analysts,clean,,True,Minor 2010->2018 scope change (13-2054 Financial Risk Specialists split off); code stable.
+Retail Trade,6.3,General & Operations Managers,477.16,11-1021,General and Operations Managers,clean,,True,
+Retail Trade,6.3,1st-Line Supervisors of Retail Sales Workers,58.27,41-1011,First-Line Supervisors of Retail Sales Workers,clean,,True,
+Retail Trade,6.3,Pharmacists,45.12,29-1051,Pharmacists,clean,,True,
+Retail Trade,6.3,Private Detectives & Investigators,2.39,33-9021,Private Detectives and Investigators,clean,,True,
+Wholesale Trade,5.8,"Sales Reps, Wholesale & Mfg (Except Tech/Scientific)",103.21,41-4012,"Sales Representatives, Wholesale and Manufacturing, Except Technical and Scientific Products",clean,,True,
+Wholesale Trade,5.8,Sales Managers,97.16,11-2022,Sales Managers,clean,,True,
+Wholesale Trade,5.8,"Sales Reps, Wholesale & Mfg (Tech/Scientific)",33.66,41-4011,"Sales Representatives, Wholesale and Manufacturing, Technical and Scientific Products",clean,,True,
+Wholesale Trade,5.8,1st-Line Supervisors of Non-Retail Sales Workers,21.43,41-1012,First-Line Supervisors of Non-Retail Sales Workers,clean,,True,
+Wholesale Trade,5.8,Order Clerks,3.86,43-4151,Order Clerks,clean,,True,
+Information,5.4,Producers & Directors,16.6,27-2012,Producers and Directors,clean,,True,
+Information,5.4,Editors,8.18,27-3041,Editors,clean,,True,
+Information,5.4,"News Analysts, Reporters, and Journalists",4.41,27-3023,"News Analysts, Reporters, and Journalists",clean,,True,2018 merge of 2010 27-3021 (Broadcast News Analysts) + 27-3022 (Reporters).
+Information,5.4,Audio & Video Technicians,4.3,27-4011,Audio and Video Technicians,clean,,True,
+Information,5.4,Film & Video Editors,2.41,27-4032,Film and Video Editors,clean,,True,

@@ -1,0 +1,40 @@
+{
+  "oews_source": "oesm24nat.zip::oesm24nat/national_M2024_dl.xlsx",
+  "aioe_bridge_mode": "official crosswalk",
+  "economywide_aioe_coverage": {
+    "n_detailed": 831,
+    "n_detailed_scored": 779,
+    "employment_share_scored": 0.9684
+  },
+  "gdpval44_aioe_missing": [],
+  "distribution_employment_weighted": {
+    "economywide_aioe_percentiles": {
+      "p10": -1.2851,
+      "p25": -0.7889,
+      "p50": 0.0303,
+      "p75": 1.0143,
+      "p90": 1.2879
+    },
+    "gdpval44_aioe_percentiles": {
+      "p10": 0.0454,
+      "p25": 0.4187,
+      "p50": 0.9476,
+      "p75": 1.2207,
+      "p90": 1.3559
+    },
+    "economywide_weighted_median_aioe": 0.0303,
+    "gdpval44_weighted_median_aioe": 0.9476,
+    "economywide_weighted_mean_aioe": 0.0308,
+    "gdpval44_weighted_mean_aioe": 0.7802,
+    "gdpval44_median_percentile_in_economywide": 0.6935
+  },
+  "rank_test_occupation_level_unweighted": {
+    "test": "Mann-Whitney U (two-sided), GDPval-44 vs complement",
+    "n_gdpval": 44,
+    "n_complement": 735,
+    "U": 23697.5,
+    "p_value": 2.085708340661972e-07,
+    "common_language_effect_gdpval_higher": 0.7328,
+    "rank_biserial_pos_means_gdpval_higher": 0.4655
+  }
+}

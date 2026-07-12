@@ -1,0 +1,79 @@
+{
+  "oews_source": "oesm24nat.zip::oesm24nat/national_M2024_dl.xlsx",
+  "sector_assignment": "OEWS May 2024 natsector modal (proxy for GDPval's 2023 NEM rule)",
+  "validation_gdpval44": {
+    "n": 44,
+    "landed_in_gdpval_assigned_sector": 42,
+    "mismatches": [
+      {
+        "occupation": "Concierges",
+        "gdpval_sector": "Real Estate and Rental and Leasing",
+        "oews_modal_sector": "Health Care and Social Assistance"
+      },
+      {
+        "occupation": "Child, Family, and School Social Workers",
+        "gdpval_sector": "Government",
+        "oews_modal_sector": "Health Care and Social Assistance"
+      }
+    ]
+  },
+  "n_occupations_modal_in_nine": 514,
+  "gdpval44_outside_S": [],
+  "tier1_within_sector": {
+    "within_sector_employment": 95417970,
+    "gdpval44_employment": 29669370,
+    "coverage_share_of_nine_sectors": 0.3109,
+    "wage": {
+      "baseline_percentiles": {
+        "p10": 36807.5163,
+        "p25": 44130.0,
+        "p50": 64146.7769,
+        "p75": 98455.8933,
+        "p90": 134273.3862
+      },
+      "gdpval_percentiles": {
+        "p10": 45378.3269,
+        "p25": 71296.7695,
+        "p50": 98326.9452,
+        "p75": 133142.0476,
+        "p90": 159955.7358
+      },
+      "baseline_weighted_median": 64146.7769,
+      "gdpval_weighted_median": 98326.9452,
+      "baseline_weighted_mean": 76990.3195,
+      "gdpval_weighted_mean": 100833.5584,
+      "gdpval_median_percentile_in_baseline": 0.7314
+    }
+  },
+  "tier2_within_sector": {
+    "aioe": {
+      "baseline_percentiles": {
+        "p10": -0.9011,
+        "p25": -0.5215,
+        "p50": 0.2904,
+        "p75": 1.0533,
+        "p90": 1.3092
+      },
+      "gdpval_percentiles": {
+        "p10": 0.0454,
+        "p25": 0.4187,
+        "p50": 0.9476,
+        "p75": 1.2207,
+        "p90": 1.3559
+      },
+      "baseline_weighted_median": 0.2904,
+      "gdpval_weighted_median": 0.9476,
+      "baseline_weighted_mean": 0.2952,
+      "gdpval_weighted_mean": 0.7802,
+      "gdpval_median_percentile_in_baseline": 0.6397
+    },
+    "rank_test_vs_within_sector_complement": {
+      "test": "Mann-Whitney U (two-sided), GDPval-44 vs within-nine complement",
+      "n_gdpval": 44,
+      "n_complement": 444,
+      "U": 13878.0,
+      "p_value": 4.108133505269513e-06,
+      "common_language_effect_gdpval_higher": 0.7104
+    }
+  }
+}

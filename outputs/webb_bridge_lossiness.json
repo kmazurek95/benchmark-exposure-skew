@@ -1,0 +1,26 @@
+{
+  "bridge_chain": "Webb occ1990dd -> Dorn(2010 census occ) -> Census(2018 SOC)",
+  "webb_occ1990dd_scored": 338,
+  "webb_occ1990dd_reaching_a_2018_soc": 277,
+  "webb_occ1990dd_reach_rate": 0.8195,
+  "multiplicity": {
+    "soc_to_occ1990dd_max": 1,
+    "soc_to_occ1990dd_share_single": 1.0,
+    "occ1990dd_to_soc_mean": 1.47,
+    "occ1990dd_to_soc_median": 1,
+    "occ1990dd_to_soc_max": 13
+  },
+  "employment_coverage": {
+    "oews_detailed_total": 831,
+    "oews_detailed_with_webb": 312,
+    "employment_share_mapped": 0.55,
+    "employment_share_unmapped": 0.45
+  },
+  "unmapped_nonrandom_check": {
+    "mapped_emp_weighted_mean_aioe": 0.0966,
+    "unmapped_emp_weighted_mean_aioe": -0.007,
+    "mapped_emp_weighted_mean_wage": 71123.0,
+    "unmapped_emp_weighted_mean_wage": 63980.0
+  },
+  "verdict": "documented null: bridge too lossy to trust for a distributional comparison"
+}

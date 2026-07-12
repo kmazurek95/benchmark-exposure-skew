@@ -1,0 +1,50 @@
+{
+  "oews_source": "oesm24nat.zip::oesm24nat/national_M2024_dl.xlsx",
+  "n_gdpval_detail_codes": 46,
+  "n_gdpval_codes_matched": 44,
+  "n_gdpval_occupations": 44,
+  "n_gdpval_oews_codes": 44,
+  "data_flags": {
+    "resolved_detail_to_broad": [
+      "13-1021->13-1020",
+      "13-1022->13-1020",
+      "13-1023->13-1020"
+    ],
+    "absent_from_oews": [],
+    "employment_suppressed": [],
+    "wage_mean_suppressed": [],
+    "wage_mean_at_cap": []
+  },
+  "gdpval44_employment": 29669370,
+  "total_employment_row": 154187380,
+  "detailed_employment_incl_all_other": 154186300,
+  "detailed_employment_excl_all_other": 148330410,
+  "n_detailed_occupations": 831,
+  "n_all_other_occupations": 69,
+  "coverage": {
+    "share_of_total_employment_row": 0.1924,
+    "share_of_detailed_incl_all_other": 0.1924,
+    "share_of_detailed_excl_all_other": 0.2
+  },
+  "wage": {
+    "economywide_weighted_wage_percentiles": {
+      "p10": 35017.0,
+      "p25": 40880.0,
+      "p50": 52427.0,
+      "p75": 81551.7,
+      "p90": 121336.0
+    },
+    "gdpval44_weighted_wage_percentiles": {
+      "p10": 45378.3,
+      "p25": 71296.8,
+      "p50": 98326.9,
+      "p75": 133142.0,
+      "p90": 159955.7
+    },
+    "economywide_weighted_median_wage": 52427.0,
+    "gdpval44_weighted_median_wage": 98326.9,
+    "economywide_weighted_mean_wage": 67909.0,
+    "gdpval44_weighted_mean_wage": 100833.6,
+    "gdpval44_median_worker_percentile_economywide": 0.8189
+  }
+}

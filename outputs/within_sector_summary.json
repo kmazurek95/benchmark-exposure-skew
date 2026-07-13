@@ -75,5 +75,37 @@
       "p_value": 4.108133505269513e-06,
       "common_language_effect_gdpval_higher": 0.7104
     }
+  },
+  "denominator_robustness": {
+    "partition_reconciliation": {
+      "n_occupations": 830,
+      "max_ratio": 1.0003,
+      "n_exceeding_101pct": 0,
+      "employment_weighted_ratio": 0.9968,
+      "share_reconciling_within_half_pct": 0.531
+    },
+    "boundary_fragility": {
+      "within_nine_employment": 95417970,
+      "low_modal_share_under_0_40": {
+        "n": 109,
+        "employment": 32913310,
+        "share_of_denominator": 0.345,
+        "note": "most split between two in-nine sectors, so membership is unchanged"
+      },
+      "membership_flip_out": {
+        "n": 29,
+        "employment": 5504910,
+        "share_of_denominator": 0.058
+      },
+      "membership_flip_in": {
+        "n": 22,
+        "employment": 6840850
+      },
+      "coverage_band": {
+        "point": 0.3109,
+        "if_flip_out_leave": 0.33,
+        "if_flip_in_enter": 0.2901
+      }
+    }
   }
 }

@@ -24,7 +24,8 @@ from scipy.stats import mannwhitneyu
 import paths
 import oews
 import sectors
-from tier1_coverage import weighted_quantile, weighted_mean, weighted_share_below
+from tier1_coverage import (weighted_quantile, weighted_mean,
+                            weighted_share_below, weighted_ecdf)
 from tier2_aioe import build_oews_aioe
 
 
@@ -39,6 +40,65 @@ def gdpval_oews_codes(oews_codes: set) -> pd.DataFrame:
 
     mp["oews_code"] = [resolve(s) for s in mp["soc_2018"]]
     return mp
+
+
+def denominator_robustness(det, gd_emp):
+    """Audit the within-nine denominator: partition reconciliation (natsector sums
+    vs cross-industry totals) and boundary-flip fragility (occupations whose modal
+    argmax sits near the in-nine / out-of-nine line)."""
+    se = sectors.load_sector_employment().dropna(subset=["TOT_EMP"])
+    xind = det.set_index("OCC_CODE")["TOT_EMP"]
+    nine = set(sectors.GDPVAL_SECTOR_BY_NAICS)
+
+    # Partition reconciliation: does natsector sum to the cross-industry total?
+    sec_sum = se.groupby("OCC_CODE")["TOT_EMP"].sum()
+    rr = pd.DataFrame({"sec": sec_sum, "x": xind}).dropna()
+    ratio = rr["sec"] / rr["x"]
+    recon = {
+        "n_occupations": int(len(rr)),
+        "max_ratio": round(float(ratio.max()), 4),                 # >1 would be a double-count
+        "n_exceeding_101pct": int((ratio > 1.01).sum()),
+        "employment_weighted_ratio": round(float(np.average(ratio, weights=rr["x"])), 4),
+        "share_reconciling_within_half_pct": round(float(((ratio >= 0.995) & (ratio <= 1.005)).mean()), 3),
+    }
+
+    # Boundary-flip fragility: modal vs runner-up sector per occupation.
+    def top2(g):
+        s = g.sort_values("TOT_EMP", ascending=False)
+        tot = s["TOT_EMP"].sum()
+        run = s.iloc[1] if len(s) >= 2 else None
+        return pd.Series({
+            "modal_naics": s.iloc[0]["NAICS"], "modal_share": s.iloc[0]["TOT_EMP"] / tot,
+            "runner_naics": (run["NAICS"] if run is not None else None),
+            "runner_share": ((run["TOT_EMP"] / tot) if run is not None else 0.0)})
+    t2 = se.groupby("OCC_CODE").apply(top2, include_groups=False)
+    t2["emp"] = xind
+    t2 = t2.dropna(subset=["emp"])
+    t2["modal_in"] = t2["modal_naics"].isin(nine)
+    t2["runner_in"] = t2["runner_naics"].isin(nine)
+    t2["gap"] = t2["modal_share"] - t2["runner_share"]
+    Semp = float(t2.loc[t2["modal_in"], "emp"].sum())
+
+    low = t2[t2["modal_in"] & (t2["modal_share"] < 0.40)]
+    flip_out = t2[t2["modal_in"] & ~t2["runner_in"] & (t2["gap"] < 0.10)]   # could leave the nine
+    flip_in = t2[~t2["modal_in"] & t2["runner_in"] & (t2["gap"] < 0.10)]    # could enter the nine
+    frag = {
+        "within_nine_employment": int(Semp),
+        "low_modal_share_under_0_40": {
+            "n": int(len(low)), "employment": int(low["emp"].sum()),
+            "share_of_denominator": round(float(low["emp"].sum() / Semp), 3),
+            "note": "most split between two in-nine sectors, so membership is unchanged"},
+        "membership_flip_out": {
+            "n": int(len(flip_out)), "employment": int(flip_out["emp"].sum()),
+            "share_of_denominator": round(float(flip_out["emp"].sum() / Semp), 3)},
+        "membership_flip_in": {
+            "n": int(len(flip_in)), "employment": int(flip_in["emp"].sum())},
+        "coverage_band": {
+            "point": round(gd_emp / Semp, 4),
+            "if_flip_out_leave": round(gd_emp / (Semp - float(flip_out["emp"].sum())), 4),
+            "if_flip_in_enter": round(gd_emp / (Semp + float(flip_in["emp"].sum())), 4)},
+    }
+    return {"partition_reconciliation": recon, "boundary_fragility": frag}
 
 
 def main() -> int:
@@ -109,6 +169,8 @@ def main() -> int:
         "common_language_effect_gdpval_higher": round(float(cles), 4),
     }
 
+    robust = denominator_robustness(det, gd_emp)
+
     summary = {
         "oews_source": nat.attrs["source"],
         "sector_assignment": "OEWS May 2024 natsector modal (proxy for GDPval's 2023 NEM rule)",
@@ -123,10 +185,11 @@ def main() -> int:
         "gdpval44_outside_S": gd_not_in_S,
         "tier1_within_sector": tier1,
         "tier2_within_sector": tier2,
+        "denominator_robustness": robust,
     }
     paths.WITHIN_SECTOR_SUMMARY.write_text(json.dumps(summary, indent=2), encoding="utf-8")
 
-    write_log(modal, val)
+    write_log(modal, val, robust)
     make_figure(S, S_a, g)
 
     # --- Report ---
@@ -154,8 +217,10 @@ def main() -> int:
     return 0
 
 
-def write_log(modal, val):
+def write_log(modal, val, robust):
     d = val["detail"]
+    rec = robust["partition_reconciliation"]
+    fr = robust["boundary_fragility"]
     lines = [
         "# Modal-sector assignment log (within-sector baseline)", "",
         "GDPval assigned occupations to sectors via the 2023 National Employment",
@@ -163,18 +228,37 @@ def write_log(modal, val):
         "matrix is not reachable; this uses the May 2024 OEWS national industry file",
         "(natsector), which gives occupation employment across 20 mutually-exclusive",
         "NAICS sectors. Government is NAICS 99 (OEWS designation excluding government",
-        "schools and hospitals), matching how the Matrix separates Government.", "",
+        "schools and hospitals); this is narrower than GDPval's BEA/NEM Government,",
+        "a documented soft-spot detailed below.", "",
         f"- Occupations assigned: **{len(modal)}**",
         f"- Modal sector in GDPval's nine: **{int(modal['in_nine'].sum())}**",
         f"- Validation, GDPval's 44 landing in their GDPval-assigned sector: "
         f"**{val['match']}/{val['n']}**", "",
-        "## Ownership de-duplication",
+        "## Ownership de-duplication and partition reconciliation",
         "The natsector file gives ONE combined-ownership row per (occupation, NAICS",
         "sector), so no summation across OEWS OWN_CODEs is performed and none is",
         "needed. (The finer 3-digit files use overlapping combined codes with no full",
         "total and would double-count under naive summation; those are not used here.)",
-        "As a check, each occupation's per-sector employment sums to its cross-industry",
-        "total to within rounding, so the sectors partition employment cleanly.", "",
+        f"Checked against the cross-industry totals: no occupation's sector employment",
+        f"exceeds its cross-industry total (max ratio {rec['max_ratio']}), so there is no",
+        f"ownership double-count, and the employment-weighted reconciliation is",
+        f"{rec['employment_weighted_ratio']:.1%}. It is NOT an exact partition per",
+        f"occupation: only {rec['share_reconciling_within_half_pct']:.0%} reconcile within 0.5%, because small",
+        "occupations have suppressed fine-sector cells that fall short of the total.",
+        "Those cells are too small to be the argmax, so the modal assignment is",
+        "unaffected; the earlier 'sums to within rounding' phrasing was too strong.", "",
+        "## Denominator boundary fragility",
+        f"A third of the within-nine employment ({fr['low_modal_share_under_0_40']['share_of_denominator']:.0%}) sits on occupations whose",
+        "modal sector holds under 40% of their employment, but most of those split",
+        "between two IN-nine sectors, which does not change membership. The",
+        f"membership-relevant fragility is smaller: {fr['membership_flip_out']['n']} occupations "
+        f"({fr['membership_flip_out']['share_of_denominator']:.1%} of the",
+        "denominator) are in the nine with an out-of-nine runner-up within 10 points,",
+        f"and {fr['membership_flip_in']['n']} occupations outside the nine "
+        f"({fr['membership_flip_in']['employment']:,} workers) have an in-nine",
+        f"runner-up equally close. Flipping these moves within-sector coverage within",
+        f"about {fr['coverage_band']['if_flip_in_enter']:.1%} to {fr['coverage_band']['if_flip_out_leave']:.1%}, "
+        f"so 31.1% is stable to roughly two points.", "",
         "## Judgment call and soft-spot: Government",
         "GDPval's Government is a BEA / National Employment Matrix sector that includes",
         "public education and public hospitals. OEWS has no matching sector: its",
@@ -207,39 +291,40 @@ def make_figure(S, S_a, g):
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
-    from scipy.stats import gaussian_kde
 
-    def wkde(values, weights, grid, logx=False):
-        values = np.asarray(values, float); weights = np.asarray(weights, float)
-        ok = np.isfinite(values) & np.isfinite(weights) & (weights > 0)
-        x = np.log10(values[ok]) if logx else values[ok]
-        return gaussian_kde(x, weights=weights[ok])(np.log10(grid) if logx else grid)
+    def panel(ax, bv, bw, gv, gw, logx, xlabel, title):
+        # Employment-weighted empirical CDFs (step), baseline vs GDPval's 44, with
+        # the GDPval median's baseline percentile marked. No smoothing over small n.
+        xb, yb = weighted_ecdf(bv, bw)
+        xg, yg = weighted_ecdf(gv, gw)
+        gd_med = float(weighted_quantile(np.asarray(gv, float), [0.5],
+                                         np.asarray(gw, float))[0])
+        pct = weighted_share_below(gd_med, bv, bw)
+        ax.step(xb, yb, where="post", color="#2B8A3E", lw=2,
+                label="Within GDPval's 9 sectors")
+        ax.step(xg, yg, where="post", color="#E8590C", lw=2, label="GDPval's 44")
+        ax.plot(np.asarray(gv, float), np.full(len(gv), -0.03), "|", color="#E8590C",
+                ms=7, alpha=0.5, clip_on=False)
+        ax.vlines(gd_med, 0, pct, color="#868e96", ls="--", lw=1)
+        ax.hlines(pct, np.asarray(xb).min(), gd_med, color="#868e96", ls="--", lw=1)
+        ax.plot([gd_med], [pct], "o", color="#2B8A3E", zorder=5)
+        ax.annotate(f"{pct:.0%} pctile", xy=(gd_med, pct),
+                    xytext=(gd_med, pct - 0.16), fontsize=9, color="#333")
+        if logx:
+            ax.set_xscale("log")
+        ax.set_ylim(-0.05, 1.02)
+        ax.set_xlabel(xlabel)
+        ax.set_title(title)
+        ax.legend(frameon=False, loc="upper left")
+        ax.spines[["top", "right"]].set_visible(False)
 
-    fig, axes = plt.subplots(1, 2, figsize=(13, 5))
-    # Tier 1 wage
-    grid = np.logspace(np.log10(18000), np.log10(400000), 400)
-    ax = axes[0]
-    ax.plot(grid, wkde(S["A_MEAN"], S["TOT_EMP"], grid, logx=True), color="#2B8A3E", lw=2,
-            label="Within GDPval's 9 sectors")
-    ax.fill_between(grid, wkde(S["A_MEAN"], S["TOT_EMP"], grid, logx=True), color="#2B8A3E", alpha=0.10)
-    ax.plot(grid, wkde(g["A_MEAN"], g["TOT_EMP"], grid, logx=True), color="#E8590C", lw=2,
-            label="GDPval's 44")
-    ax.fill_between(grid, wkde(g["A_MEAN"], g["TOT_EMP"], grid, logx=True), color="#E8590C", alpha=0.12)
-    ax.set_xscale("log"); ax.set_xlabel("Mean annual wage (US$, log)")
-    ax.set_ylabel("Employment-weighted density"); ax.set_title("Tier 1: wage (within-sector)")
-    ax.legend(frameon=False); ax.spines[["top", "right"]].set_visible(False)
-    # Tier 2 AIOE
-    ax = axes[1]
-    lo = float(np.nanmin(S_a["aioe"])); hi = float(np.nanmax(S_a["aioe"]))
-    ag = np.linspace(lo - 0.2, hi + 0.2, 400)
-    ax.plot(ag, wkde(S_a["aioe"], S_a["TOT_EMP"], ag), color="#2B8A3E", lw=2,
-            label="Within GDPval's 9 sectors")
-    ax.fill_between(ag, wkde(S_a["aioe"], S_a["TOT_EMP"], ag), color="#2B8A3E", alpha=0.10)
+    fig, axes = plt.subplots(1, 2, figsize=(13, 5.2))
+    panel(axes[0], S["A_MEAN"], S["TOT_EMP"], g["A_MEAN"], g["TOT_EMP"],
+          True, "Mean annual wage (US$, log)", "Tier 1: wage (within-sector)")
+    axes[0].set_ylabel("Cumulative share of employment")
     gg = g[g["aioe"].notna()]
-    ax.plot(ag, wkde(gg["aioe"], gg["TOT_EMP"], ag), color="#E8590C", lw=2, label="GDPval's 44")
-    ax.fill_between(ag, wkde(gg["aioe"], gg["TOT_EMP"], ag), color="#E8590C", alpha=0.12)
-    ax.set_xlabel("AIOE (standardized)"); ax.set_title("Tier 2: AIOE (within-sector)")
-    ax.legend(frameon=False); ax.spines[["top", "right"]].set_visible(False)
+    panel(axes[1], S_a["aioe"], S_a["TOT_EMP"], gg["aioe"], gg["TOT_EMP"],
+          False, "AIOE (standardized)", "Tier 2: AIOE (within-sector)")
     fig.suptitle("Within GDPval's nine sectors: GDPval's 44 vs other occupations in the same sectors",
                  fontsize=12)
     fig.tight_layout()

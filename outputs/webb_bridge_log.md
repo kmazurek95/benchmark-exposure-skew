@@ -5,7 +5,7 @@ not SOC, with no official bridge. This assessment builds the bridge only
 far enough to measure its lossiness, then applies the pre-registered
 decision rule. It does not reconstruct the multi-hop CPS-weighted pipeline
 used by EIG/Yale, because the pre-registration (section 3) already
-established that Webb shares O*NET construction and so cannot serve as the
+established that Webb shares O\*NET construction and so cannot serve as the
 independent check; a forced comparison would add a caveated measure of no
 load-bearing value.
 
@@ -34,5 +34,5 @@ unmapped set is systematically different. Per the pre-registration (sections
 2-3), this is reported as the Tier-3 finding rather than presenting a forced
 mapping as clean: the most-cited non-abilities exposure measure will not
 cleanly join the SOC classification the rest of the literature uses. Because
-Webb also shares O*NET construction, even a clean bridge could not have
+Webb also shares O\*NET construction, even a clean bridge could not have
 changed the load-bearing conclusion; Tier 1 carries the argument.

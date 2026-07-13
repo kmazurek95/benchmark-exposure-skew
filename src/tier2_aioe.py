@@ -28,7 +28,8 @@ from scipy.stats import mannwhitneyu
 
 import paths
 import oews
-from tier1_coverage import weighted_quantile, weighted_mean, weighted_share_below
+from tier1_coverage import (weighted_quantile, weighted_mean,
+                            weighted_share_below, weighted_ecdf)
 
 
 def build_oews_aioe(det: pd.DataFrame, bridged: pd.DataFrame) -> pd.DataFrame:
@@ -186,30 +187,35 @@ def make_figure(w, we, gw, gwe, base_med, gd_med):
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
-    from scipy.stats import gaussian_kde
 
-    def wkde(values, weights, grid):
-        values = np.asarray(values, float); weights = np.asarray(weights, float)
-        ok = np.isfinite(values) & np.isfinite(weights) & (weights > 0)
-        return gaussian_kde(values[ok], weights=weights[ok])(grid)
+    # Employment-weighted empirical CDFs (step, no smoothing): the GDPval side is
+    # 44 heavy-tailed points, so a KDE would manufacture regularity that isn't there.
+    xw, yw = weighted_ecdf(w, we)
+    xg, yg = weighted_ecdf(gw, gwe)
+    pct = weighted_share_below(gd_med, w, we)
 
-    lo = float(np.nanmin(w)); hi = float(np.nanmax(w))
-    grid = np.linspace(lo - 0.2, hi + 0.2, 400)
-    fig, ax = plt.subplots(figsize=(9, 5.2))
-    ax.plot(grid, wkde(w, we, grid), color="#4C6EF5", lw=2,
+    fig, ax = plt.subplots(figsize=(9, 5.4))
+    ax.step(xw, yw, where="post", color="#4C6EF5", lw=2,
             label="US workforce (employment-weighted)")
-    ax.fill_between(grid, wkde(w, we, grid), color="#4C6EF5", alpha=0.10)
-    ax.plot(grid, wkde(gw, gwe, grid), color="#E8590C", lw=2,
+    ax.step(xg, yg, where="post", color="#E8590C", lw=2,
             label="GDPval's 44 occupations")
-    ax.fill_between(grid, wkde(gw, gwe, grid), color="#E8590C", alpha=0.12)
-    ax.axvline(base_med, color="#4C6EF5", ls="--", lw=1)
-    ax.axvline(gd_med, color="#E8590C", ls="--", lw=1)
+    ax.plot(gw, np.full_like(np.asarray(gw, float), -0.03), "|", color="#E8590C",
+            ms=8, alpha=0.5, clip_on=False)
+    ax.vlines(gd_med, 0, pct, color="#868e96", ls="--", lw=1)
+    ax.hlines(pct, xw.min(), gd_med, color="#868e96", ls="--", lw=1)
+    ax.plot([gd_med], [pct], "o", color="#4C6EF5", zorder=5)
+    ax.annotate(f"GDPval median AIOE {gd_med:+.2f}\nsits at the {pct:.0%} percentile\n"
+                f"of the workforce",
+                xy=(gd_med, pct), xytext=(gd_med + 0.25, pct - 0.32),
+                fontsize=9, color="#333",
+                arrowprops=dict(arrowstyle="->", color="#868e96"))
+    ax.set_ylim(-0.05, 1.02)
     ax.set_xlabel("AIOE (AI Occupational Exposure), standardized")
-    ax.set_ylabel("Employment-weighted density")
+    ax.set_ylabel("Cumulative share of employment")
     ax.set_title("AIOE exposure: GDPval's frame vs the employment-weighted workforce\n"
                  "Caveat: AIOE shares O*NET construction with GDPval's digital filter "
                  "(see pre-registration sections 3-4)", fontsize=11)
-    ax.legend(frameon=False)
+    ax.legend(frameon=False, loc="upper left")
     ax.spines[["top", "right"]].set_visible(False)
     fig.tight_layout()
     fig.savefig(paths.FIG_TIER2, dpi=150)

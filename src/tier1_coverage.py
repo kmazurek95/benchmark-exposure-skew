@@ -222,38 +222,56 @@ def main() -> int:
     return 0
 
 
+def weighted_ecdf(values, weights):
+    """Employment-weighted empirical CDF: sorted values and cumulative share.
+    Returns (x, y) suitable for a steps-post plot (no smoothing over small n)."""
+    values = np.asarray(values, float)
+    weights = np.asarray(weights, float)
+    ok = np.isfinite(values) & np.isfinite(weights) & (weights > 0)
+    values, weights = values[ok], weights[ok]
+    order = np.argsort(values)
+    x = values[order]
+    y = np.cumsum(weights[order]) / np.sum(weights)
+    return x, y
+
+
 def make_figure(w, we, gw, gwe, cov, base_median, gd_median):
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
 
-    def wkde(values, weights, grid):
-        from scipy.stats import gaussian_kde
-        values = np.asarray(values, float)
-        weights = np.asarray(weights, float)
-        ok = np.isfinite(values) & np.isfinite(weights) & (weights > 0)
-        k = gaussian_kde(np.log10(values[ok]), weights=weights[ok])
-        return k(np.log10(grid))
+    # Employment-weighted empirical CDFs. The GDPval side is 44 occupation-means
+    # with heavy-tailed weights, so a step ECDF (not a smoothed density) is used:
+    # it shows the true step structure and reads the percentile positions directly.
+    xw, yw = weighted_ecdf(w, we)
+    xg, yg = weighted_ecdf(gw, gwe)
+    pct = weighted_share_below(gd_median, w, we)   # GDPval median's workforce percentile
 
-    # Grid spans to ~400k so the workforce's high tail (physicians, CEOs; A_MEAN
-    # is not top-coded) is not clipped. GDPval's 44 all sit well below the top.
-    grid = np.logspace(np.log10(18000), np.log10(400000), 500)
-    fig, ax = plt.subplots(figsize=(9, 5.2))
-    ax.plot(grid, wkde(w, we, grid), color="#4C6EF5", lw=2,
+    fig, ax = plt.subplots(figsize=(9, 5.4))
+    ax.step(xw, yw, where="post", color="#4C6EF5", lw=2,
             label="US workforce (employment-weighted)")
-    ax.fill_between(grid, wkde(w, we, grid), color="#4C6EF5", alpha=0.10)
-    ax.plot(grid, wkde(gw, gwe, grid), color="#E8590C", lw=2,
+    ax.step(xg, yg, where="post", color="#E8590C", lw=2,
             label="GDPval's 44 occupations")
-    ax.fill_between(grid, wkde(gw, gwe, grid), color="#E8590C", alpha=0.12)
-    ax.axvline(base_median, color="#4C6EF5", ls="--", lw=1)
-    ax.axvline(gd_median, color="#E8590C", ls="--", lw=1)
+    # rug of the 44 occupation-means so their small-n lumpiness is visible
+    ax.plot(gw, np.full_like(np.asarray(gw, float), -0.03), "|", color="#E8590C",
+            ms=8, alpha=0.5, clip_on=False)
+    # mark the load-bearing stat: GDPval median wage -> its percentile on the workforce
+    ax.vlines(gd_median, 0, pct, color="#868e96", ls="--", lw=1)
+    ax.hlines(pct, xw.min(), gd_median, color="#868e96", ls="--", lw=1)
+    ax.plot([gd_median], [pct], "o", color="#4C6EF5", zorder=5)
+    ax.annotate(f"GDPval median ${gd_median:,.0f}\nsits at the {pct:.0%} percentile\n"
+                f"of the workforce",
+                xy=(gd_median, pct), xytext=(gd_median * 1.08, pct - 0.30),
+                fontsize=9, color="#333",
+                arrowprops=dict(arrowstyle="->", color="#868e96"))
     ax.set_xscale("log")
+    ax.set_ylim(-0.05, 1.02)
     ax.set_xlabel("Occupational mean annual wage (US$, log scale)")
-    ax.set_ylabel("Employment-weighted density")
+    ax.set_ylabel("Cumulative share of employment")
     ax.set_title("GDPval's frame vs the employment-weighted US workforce\n"
                  f"Coverage: {cov['share_of_detailed_incl_all_other']:.1%} of US employment",
                  fontsize=12)
-    ax.legend(frameon=False)
+    ax.legend(frameon=False, loc="upper left")
     ax.spines[["top", "right"]].set_visible(False)
     fig.tight_layout()
     fig.savefig(paths.FIG_TIER1, dpi=150)

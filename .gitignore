@@ -13,6 +13,9 @@ _private/
 # stay local; only aggregate results, our own mapping, code and figures are tracked.
 outputs/local/
 
+# Hand-off bundles for external recompute carry third-party per-occupation values.
+handoff/
+
 # Scratch, environments, OS noise
 scratchpad/
 __pycache__/

@@ -3,8 +3,9 @@
 Does GDPval's sampling frame select high-exposure occupations?
 
 GDPval evaluates AI models on tasks drawn from 44 occupations, chosen by a documented rule: sectors
-above a 5% share of US GDP by value added, then the highest-wage predominantly-digital occupations
-within them. The rule was chosen for measurement reasons. This project asks what it produces: how
+above a 5% share of US GDP by value added, then, within each, the predominantly-digital occupations
+that contribute most to total wages and compensation. The rule was chosen for measurement reasons.
+This project asks what it produces: how
 much of US employment those 44 occupations cover, and where they sit in the employment-weighted wage
 distribution. A second question, harder to answer cleanly, is whether they sit higher on AI-exposure
 measures than the workforce does.

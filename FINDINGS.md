@@ -33,8 +33,11 @@ The two numbers do not carry equal weight. GDPval selected the predominantly
 digital occupations that contribute most to total wages and compensation, a wage
 bill, so the wage-position result partly reflects the selection rule rather than
 being an independent finding. The **employment coverage (19.2%, and 31.1%
-within-sector) is the load-bearing, non-mechanical number**, because GDPval did not
-select occupations to maximize employment coverage. The wage-bill criterion also
+within-sector) is the load-bearing number.** Coverage is not the selection target,
+and the wage-bill rule if anything tilts toward large-employment occupations, so the
+44 reach more of the workforce than 44 occupations chosen without regard to size
+would. 19.2% is a generous reading of the frame's coverage: a size-blind selection
+would typically cover less, so the under-coverage is if anything understated. The wage-bill criterion also
 explains why some lower-wage but high-headcount occupations (Concierges, Recreation
 Workers, Customer Service Representatives) sit in a frame otherwise dominated by
 high-paying work: they enter on a large wage bill built from employment, not wage.
@@ -56,6 +59,18 @@ the argument for one reason: it is artifact-free. The AIOE comparison inherits t
 shared-O\*NET problem whatever its magnitude, while the coverage result rests on
 public wage and employment data alone.
 
+A word on how to read this. The exposure tiers, 2 and 3, were pre-registered as
+secondary to Tier 1, and both resolved exactly as the design anticipated: Tier 2 is
+uninterpretable because AIOE shares O\*NET construction with GDPval's digital
+filter, and Tier 3 is a documented null because the occ1990dd-to-SOC bridge is too
+lossy to trust and Webb is not O\*NET-independent in any case. The design was
+deliberately better powered against the hypothesis than for it (section 4), so these
+are honest nulls, reported as the point rather than as a shortfall. The
+load-bearing, deliberate contribution is the employment-coverage disclosure and the
+reporting standard it demonstrates (section 8), not a finding about AI exposure.
+Nothing here shows GDPval is biased toward exposed work; it shows what the frame
+contains and how little of the workforce it speaks for.
+
 ---
 
 ## 2. Data and methods
@@ -63,10 +78,11 @@ public wage and employment data alone.
 **Occupation frame.** GDPval's 44 occupations were extracted verbatim from Table 1
 of the GDPval paper (arXiv:2510.04374v1). GDPval's sampling rule (nine sectors
 above 5% of US GDP by value added, then, within each, the predominantly digital
-occupations contributing most to total wages and compensation) is documented by
-OpenAI in their appendix A.7; this analysis does not claim to have discovered it.
-Note the selection criterion is a wage bill, not a wage rate; section 3 draws out
-what that implies for the wage-position result.
+occupations that contribute most to total wages and compensation) is stated by
+OpenAI in section 2.1 of the paper, with further detail in appendix A.7; this
+analysis does not claim to have discovered it. The selection criterion is a wage
+bill, wage times employment, not a wage rate; section 3 draws out what that implies
+for the wage-position result.
 
 **Unit and vintage.** The unit is the occupation, keyed to the 2018 SOC at the
 6-digit detailed level. GDPval's frame is already 2018-SOC-native (it was built on
@@ -102,8 +118,11 @@ imputation (Project Management Specialists, new in 2018, imputed from three 2010
 
 **Weighting and tests.** All distributions are employment-weighted using OEWS
 employment counts. Wage and exposure positions are reported as the full
-distribution (overlaid employment-weighted densities) and as summary quantiles,
-not a difference in means alone. Tier 2 adds an occupation-level rank test
+distribution (overlaid employment-weighted empirical CDFs) and as summary
+quantiles, not a difference in means alone. The figures are empirical CDFs rather
+than smoothed densities on purpose: GDPval's side is 44 occupation-means with
+heavy-tailed weights, and a kernel density would manufacture a smoothness the data
+do not have. Tier 2 adds an occupation-level rank test
 (Mann-Whitney U, GDPval's 44 against the complement).
 
 **One mapping subtlety worth stating.** Buyers and Purchasing Agents is a 2018 SOC
@@ -132,8 +151,10 @@ seeing the result.
 GDPval's 44 occupations employ 29.7 million workers. Reading the headline GDPval
 score as an economy-wide signal implicitly treats these 44 occupations as
 representative of the roughly 81% of employment they do not cover. Coverage is the
-load-bearing number here: GDPval did not select on employment, so this share is not
-a mechanical consequence of the sampling rule.
+load-bearing number here. It is not the selection target, and because the wage-bill
+rule tilts toward large-employment occupations, the 44 reach more of the workforce
+than 44 occupations chosen without regard to size would. 19.2% is a generous reading
+of the frame's coverage: a size-blind selection would typically cover less.
 
 **Wage position.** The wage measure is each occupation's mean annual wage (the OEWS
 unit), and the distribution is over workers, weighting each occupation's mean by its
@@ -154,8 +175,9 @@ distribution. This gap is real but, unlike coverage, it is partly mechanical:
 GDPval selected on a wage bill, which rewards high wages, so a rightward wage shift
 is expected from the rule itself and should not be read as an independent finding.
 The figure is [figures/tier1_wage_coverage.png](figures/tier1_wage_coverage.png):
-the two employment-weighted densities, with the GDPval frame shifted right of the
-workforce across the range.
+the two employment-weighted empirical CDFs, GDPval's curve well right of the
+workforce across the range, with the 82nd-percentile crossing marked and a rug of
+the 44 occupation-means underneath.
 
 ---
 
@@ -184,9 +206,9 @@ distribution. An occupation-level rank test (Mann-Whitney U, the 44 against the
 735 other scored occupations) gives U = 23,698, p is about 2.1e-07; a randomly
 chosen GDPval occupation outranks a randomly chosen other occupation on AIOE about
 73% of the time. The figure is
-[figures/tier2_aioe_exposure.png](figures/tier2_aioe_exposure.png): the workforce
-AIOE distribution is bimodal, and GDPval's frame sits almost entirely in the upper
-mode.
+[figures/tier2_aioe_exposure.png](figures/tier2_aioe_exposure.png): the two
+employment-weighted empirical CDFs, GDPval's curve well right of the workforce,
+with the 69th-percentile crossing marked and a rug of the 44 underneath.
 
 **What this does and does not license (pre_registration.md section 4).** The
 finding is that GDPval's 44 sit higher on AIOE than the employment-weighted
@@ -217,8 +239,20 @@ industry file (`src/sectors.py`), which gives occupation employment across 20
 mutually-exclusive NAICS sectors, one combined-ownership row per occupation-sector.
 No summation across OEWS ownership codes is done or needed, so there is no
 double-count (the finer 3-digit OEWS files, which use overlapping ownership codes
-with no full total, are not used); as a check, each occupation's per-sector
-employment sums to its cross-industry total to within rounding.
+with no full total, are not used). As a check against the cross-industry totals, no
+occupation's sector employment exceeds its cross-industry total (max ratio 1.0003),
+which confirms there is no ownership double-count, and the employment-weighted
+reconciliation is 99.7%. It is not an exact per-occupation partition (only about
+half of occupations reconcile within 0.5%, because small occupations have suppressed
+fine-sector cells that fall short of the total), but those suppressed cells are far
+too small to be the argmax, so the modal assignment is unaffected.
+
+The assignment is at the occupation level, the way GDPval did it: an occupation's
+entire national employment is attributed to its single modal sector, not split
+across the several sectors it actually works in. So the within-nine population, and
+the 31.1% coverage denominator, are the employment of occupations modally assigned
+to the nine sectors, not the employment physically located in those nine NAICS
+industries. Those two quantities differ, and this analysis reports the first.
 
 **The Government soft-spot.** GDPval's Government is a BEA and National Employment
 Matrix sector that includes public education and public hospitals. OEWS has no
@@ -237,9 +271,22 @@ inside the nine, so only their label differs: Concierges (GDPval: Real Estate) i
 split occupation that 2024 OEWS employs more in health-care settings than in real
 estate; Child, Family, and School Social Workers (GDPval: Government) is modally in
 Social Assistance (NAICS 62), and the second case is a direct symptom of the
-narrow-Government soft-spot above. The population is 514 occupations employing 95.4
-million workers, about 62% of US employment. The log is
+narrow-Government soft-spot above. The population is 514 occupations, 95.4 million
+workers or about 62% of US employment, counting each occupation's full national
+employment toward its modal sector (see the Method note above). The log is
 `outputs/modal_sector_assignment_log.md`.
+
+**Denominator robustness.** The 31.1% is the softest number in the piece, and its
+denominator, the 95.4 million, has no external anchor the way the economy-wide side
+does, so it is bounded directly (the figures are in the summary JSON). The boundary
+is not brittle. A third of the 95.4 million sits on occupations whose modal sector
+holds under 40% of their employment, but most of those split between two of the nine
+sectors, so membership does not change. The membership-relevant fragility is 5.8% of
+the denominator: 29 occupations are in the nine but have a runner-up sector outside
+it within 10 points, roughly offset by 22 occupations outside the nine (6.8 million
+workers) whose runner-up is inside. Flipping every one of them would move
+within-sector coverage only within about 29% to 33%, so 31.1% is stable to roughly
+two points.
 
 **The finding holds, attenuated.** Even against other occupations in the same nine
 sectors, GDPval's 44 sit high on both measures, though less extremely than against
@@ -261,7 +308,11 @@ GDPval's 44 still sit above even that elevated baseline is consistent with the
 occupation rule, which by construction selects the predominantly digital occupations
 with the largest wage bill within each sector; as economy-wide, the within-sector
 wage gap is partly mechanical for the same reason, and the coverage figure (31.1%)
-is the cleaner of the two. The figure is
+is the cleaner of the two. One detail a careful reader will notice: the within-sector
+wage and AIOE percentile baselines include the 44 themselves, mirroring the
+economy-wide tier, while the rank test excludes them; keeping the 44 in the baseline
+slightly understates their distinctiveness, so the 73rd and 64th percentiles are
+conservative. The figure is
 [figures/within_sector_baselines.png](figures/within_sector_baselines.png). The
 Tier 2 within-sector skew inherits the same O\*NET caveat as its economy-wide
 counterpart and is subject to the same section 4 decision rule.
@@ -274,6 +325,14 @@ Webb is distributed by occ1990dd (Dorn's harmonized 1990 Census codes), not SOC,
 with no official bridge. The pre-registration commits in advance to reporting a
 documented null if the occ1990dd-to-SOC crosswalk proves too lossy to trust, rather
 than presenting a forced mapping as clean. That is the outcome here.
+
+This does not weaken Tier 1, and the asymmetry is worth stating plainly. Tier 1
+needs no crosswalk: GDPval's frame is already native to the 2018 SOC, so its
+mapping only verifies codes that already exist. Webb starts two classifications
+away, in 1990 Census codes, and reaches the 2018 SOC only through a multi-hop
+chain, which is where the 45% loss accumulates. A bridge that frays running
+backward from a 1990 vintage says nothing about a frame that was 2018-SOC-native
+to begin with.
 
 The bridge was built only far enough to measure its lossiness, using public
 crosswalks (`src/bridge_webb.py`): Webb occ1990dd, through Dorn's
@@ -320,8 +379,11 @@ load-bearing conclusion. The assessment is logged in `outputs/webb_bridge_log.md
 - Buyers and Purchasing Agents is handled at the 13-1020 broad-group level in
   employment (an OEWS publication choice) and by unweighted mean of three detail
   scores in AIOE. Project Management Specialists' AIOE is imputed from three 2010
-  "All Other" buckets and is the least trustworthy of the 44; Tier 2 should be
-  checked for sensitivity to it.
+  "All Other" buckets and is the least trustworthy of the 44. Dropping it from the
+  Tier 2 comparison moves the employment-weighted median AIOE from +0.95 to +0.94
+  and leaves the 69th-percentile position and the rank test (p about 3e-07)
+  unchanged; dropping Buyers is equally negligible, so the skew rests on neither
+  judgment call.
 - AIOE coverage is 96.8% of employment; the 3.2% with no bridged AIOE score is
   excluded from the Tier 2 distribution. Those occupations are disproportionately
   residual and newly created codes; if they are lower-exposure on average, their

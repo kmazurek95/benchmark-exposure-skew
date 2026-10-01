@@ -179,6 +179,22 @@ the two employment-weighted empirical CDFs, GDPval's curve well right of the
 workforce across the range, with the 82nd-percentile crossing marked and a rug of
 the 44 occupation-means underneath.
 
+**Two derived checks.** Two further numbers come from `src/derived_checks.py` and
+are recorded in `outputs/derived_checks.json`. The 44 occupations' wage bill,
+employment times mean annual wage summed over the frame, is $2.99 trillion
+($2.9917T), which reproduces the "$3T annually" GDPval reports for these
+occupations; GDPval's own Table 1 figures sum to $2,991.7 billion. That is 28.6%
+of the OEWS wage bill (published total employment times the published national
+mean wage, so wage and salary jobs only), earned in occupations holding 19.2% of
+employment. As a size-blind baseline, 200,000 draws of 44 occupations taken
+uniformly from the 831 detailed occupations cover 5.3% of employment on average
+(median 5.1%, 95th percentile 8.7%), and none reaches 19.2%; drawn only from the
+514 occupations modally in GDPval's nine sectors, they cover 8.6% of that
+population on average, against GDPval's 31.1%. These are descriptive baselines,
+not hypothesis tests: GDPval's 44 were chosen by a rule, not sampled, and the
+draws show only how far the wage-bill rule reaches beyond what 44 occupations
+picked without regard to size would cover.
+
 ---
 
 ## 4. Tier 2: AIOE exposure (economy-wide, caveated)

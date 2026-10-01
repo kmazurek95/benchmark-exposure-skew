@@ -1,0 +1,61 @@
+{
+  "oews_source": "oesm24nat.zip::oesm24nat/national_M2024_dl.xlsx",
+  "inputs": [
+    "data/raw/oesm24nat.zip (OEWS May 2024 national, national_M2024_dl.xlsx)",
+    "data/raw/oesm24in4.zip (OEWS May 2024 national industry, natsector member; modal-sector assignment via src/sectors.py, as in within_sector.py)",
+    "outputs/gdpval_44_soc_mapping.csv",
+    "outputs/tier1_coverage_summary.json",
+    "outputs/within_sector_summary.json"
+  ],
+  "note": "Descriptive baselines, not hypothesis tests. GDPval's 44 occupations were chosen by a documented rule, not sampled; the random draws show what 44 occupations chosen without regard to size would cover. The national wage bill covers OEWS wage and salary jobs only (the OEWS universe excludes the self-employed).",
+  "consistency": {
+    "gdpval44_employment": 29669370,
+    "matches_tier1_summary": true,
+    "within_nine_employment": 95417970,
+    "matches_within_sector_summary": true
+  },
+  "gdpval44_wage_bill": {
+    "definition": "sum over GDPval's 44 OEWS occupations of TOT_EMP x A_MEAN",
+    "usd": 2991668151400,
+    "usd_trillions": 2.9917,
+    "gdpval_table1_sum_usd_billions": 2991.7
+  },
+  "national_wage_bill": {
+    "definition": "published All Occupations (00-0000) TOT_EMP x published A_MEAN",
+    "total_employment": 154187380,
+    "mean_annual_wage": 67920.0,
+    "usd": 10472406849600,
+    "usd_trillions": 10.4724
+  },
+  "gdpval44_share_of_national_wage_bill": 0.2857,
+  "random_draw_baseline": {
+    "pool": "OEWS detailed occupations (including 'All Other')",
+    "n_pool": 831,
+    "k": 44,
+    "n_draws": 200000,
+    "seed": 20261001,
+    "denominator": "detailed employment including 'All Other' (Tier 1 primary)",
+    "denominator_employment": 154186300,
+    "mean_share": 0.053,
+    "median_share": 0.0506,
+    "p95_share": 0.0871,
+    "max_share": 0.1857,
+    "gdpval44_share": 0.1924,
+    "n_draws_at_or_above_gdpval44": 0
+  },
+  "random_draw_within_nine": {
+    "pool": "detailed occupations whose modal sector is one of GDPval's nine",
+    "n_pool": 514,
+    "k": 44,
+    "n_draws": 200000,
+    "seed": 20261001,
+    "denominator": "within-nine employment (within_sector.py)",
+    "denominator_employment": 95417970,
+    "mean_share": 0.0855,
+    "median_share": 0.0817,
+    "p95_share": 0.1403,
+    "max_share": 0.2586,
+    "gdpval44_share": 0.3109,
+    "n_draws_at_or_above_gdpval44": 0
+  }
+}

@@ -52,6 +52,7 @@ WITHIN_SECTOR_SUMMARY = OUTPUTS / "within_sector_summary.json"
 MODAL_SECTOR_LOG = OUTPUTS / "modal_sector_assignment_log.md"
 FIG_WITHIN = FIGURES / "within_sector_baselines.png"
 WEBB_BRIDGE_SUMMARY = OUTPUTS / "webb_bridge_lossiness.json"
+DERIVED_CHECKS = OUTPUTS / "derived_checks.json"
 WEBB_BRIDGE_LOG = OUTPUTS / "webb_bridge_log.md"
 WEBB_SOC_LOCAL = OUTPUTS_LOCAL / "webb_2018soc_bridged.csv"
 # Dorn 2010-Census-occ -> occ1990dd crosswalk (occ2010_occ1990dd.zip), for Webb.

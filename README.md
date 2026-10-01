@@ -26,7 +26,7 @@ steered toward whichever result makes the better story.
 An earlier draft treated Webb's exposure measure as an independent, non-O\*NET check on AIOE. Webb's
 scores are built from O\*NET task text, so that was false, and Section 3 records the correction
 instead of overwriting it. The error was caught by a feasibility check on data availability, before
-any exposure data was examined.
+any exposure data was analyzed.
 
 ## What this is not
 

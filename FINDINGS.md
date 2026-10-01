@@ -21,7 +21,7 @@ redistributed.
 Two findings, in the order of confidence the pre-registration assigns them.
 
 **Tier 1, the spine.** GDPval's 44 occupations account for **19.2% of US
-employment** (29.7 million of 154.2 million workers, May 2024). They also sit high
+employment** (29.7 million of 154.2 million wage and salary jobs, May 2024). They also sit high
 in the wage distribution: in the employment-weighted distribution of occupational
 mean annual wages (the OEWS unit), the GDPval frame's median is **$98,300, against
 $52,400 for the workforce as a whole**, placing the median GDPval-covered worker at

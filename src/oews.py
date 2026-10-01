@@ -65,12 +65,11 @@ def _find_workbook() -> tuple[str, bytes]:
 
 def _coerce_numeric(s: pd.Series, is_wage: bool) -> tuple[pd.Series, pd.Series]:
     """Return (values, capped_flag). '#' -> cap (wages only); '*','**' -> NaN."""
-    raw = s.astype(str).str.strip()
+    raw = s.astype(str).str.strip().str.replace(",", "", regex=False)
     capped = raw.eq("#") & is_wage
     # OEWS suppression / flag markers -> NaN (never zero). '#' handled via cap below.
     cleaned = raw.replace({"*": np.nan, "**": np.nan, "***": np.nan, "#": np.nan,
                            "~": np.nan, "": np.nan, "nan": np.nan, "None": np.nan})
-    cleaned = cleaned.str.replace(",", "", regex=False)
     vals = pd.to_numeric(cleaned, errors="coerce")
     if is_wage:
         cap = WAGE_ANNUAL_CAP if s.name.startswith("A_") else WAGE_HOURLY_CAP

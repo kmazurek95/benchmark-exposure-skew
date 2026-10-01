@@ -1,0 +1,9 @@
+# Exact versions from the environment that produced the committed outputs:
+# CPython 3.12.10, project .venv built 2026-07-10. Every output-writing script in
+# src/ was re-run in it on 2026-10-01 and outputs/ came back byte-identical.
+# Tier 1 also reproduces its outputs on pandas 2.3.3.
+matplotlib==3.11.0
+numpy==2.5.1
+openpyxl==3.1.5  # not imported directly; pandas.read_excel needs it for the .xlsx inputs
+pandas==3.0.3
+scipy==1.18.0

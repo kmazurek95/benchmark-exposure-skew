@@ -17,6 +17,7 @@ within-sector baseline; Tier 3 (Webb) is a documented null. The headline: GDPval
 44 occupations cover 19.2% of US employment and sit at the 82nd wage percentile
 (73rd within their own nine sectors). [FINDINGS.md](FINDINGS.md) reports the
 results and their limits; the reproducible pipeline is in [src/](src/).
+Package versions for that pipeline are pinned in [requirements.txt](requirements.txt).
 
 [pre_registration.md](pre_registration.md) fixes the claim, the measures, the decision rule, and the
 interpretation of every possible outcome, including the null and the measurement-artifact result. It

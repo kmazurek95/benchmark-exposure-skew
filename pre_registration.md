@@ -1,5 +1,15 @@
 # Pre-Registration: Does GDPval's Sampling Frame Select High-Exposure Occupations?
 
+## Errata (2026-10-01)
+
+Added after the analysis. The pre-registration below is left exactly as written; these notes qualify it rather than edit it.
+
+1. Section 1 says GDPval selects "the five highest-wage occupations" in each sector. GDPval's rule (paper section 2.1) selects the five predominantly digital occupations that "contribute most to total wages and compensation": a wage bill, not a wage rate. The analysis used the correct rule (FINDINGS.md section 2).
+2. The header line "Written before any data was acquired or examined" describes the original pre-registration of 2026-07-08. Before the 2026-07-09 rescope, the feasibility check (FEASIBILITY.md) downloaded the AIOE and Webb files and inspected their codes and columns; it computed no distributions. The pipeline that computes the exposure distributions was first committed on 2026-07-12 (9800b39 and a1094ea).
+3. The original pre-registration (e39d6a2), the feasibility check (db4cbd9) and the rescope (cf91a31) carry commit times of 2026-07-09 12:39:50 to 12:39:51 -0500, although the first two are dated 2026-07-08 in their own text. Those times were rewritten in a history cleanup, recorded in the message of commit 613f60b (2026-07-10). Git preserves the order of the three commits but not their original times.
+
+---
+
 **Written before any data was acquired or examined.** The point of writing it first is that the interpretation of each possible outcome is fixed in advance, so the analysis cannot be steered toward the result that makes the better story.
 
 **Date:** Original pre-registration 2026-07-08; the §3 correction and the three-tier rescope were entered 2026-07-09, after the feasibility check and before any exposure data was analyzed. The git history preserves the pre-correction text.

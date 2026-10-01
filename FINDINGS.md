@@ -45,8 +45,8 @@ This is what the piece leads with.
 
 **Tier 2, the caveated extension.** GDPval's 44 also sit higher on AIOE (AI
 Occupational Exposure) than the employment-weighted workforce: employment-weighted
-median AIOE **+0.95 against +0.03**, with the median GDPval occupation at the 69th
-percentile of the workforce AIOE distribution (64th within its own nine sectors)
+median AIOE **+0.95 against +0.03**, with the median GDPval-covered worker at the 69th
+percentile of the workforce AIOE distribution (64th within GDPval's own nine sectors)
 and a rank test significant at p about 2e-07. Per the decision rule fixed in
 advance (pre_registration.md section 4), **this skew is reported but is not claimed
 to be substantive.** AIOE and GDPval's own "predominantly digital" filter are both
@@ -217,7 +217,7 @@ section 3 and fixes the interpretation in section 4.
 | 90th percentile | 1.29 | 1.36 |
 | Employment-weighted mean | 0.03 | 0.78 |
 
-The median GDPval occupation sits at the 69th percentile of the workforce AIOE
+The median GDPval-covered worker sits at the 69th percentile of the workforce AIOE
 distribution. An occupation-level rank test (Mann-Whitney U, the 44 against the
 735 other scored occupations) gives U = 23,698, p is about 2.1e-07; a randomly
 chosen GDPval occupation outranks a randomly chosen other occupation on AIOE about

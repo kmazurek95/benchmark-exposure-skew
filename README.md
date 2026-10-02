@@ -2,6 +2,8 @@
 
 Does GDPval's sampling frame select high-exposure occupations?
 
+Essay: [The Other 81 Percent](https://kmazurek95.substack.com/p/the-other-81-percent) (Substack, October 2026) explains these findings for a general audience.
+
 GDPval evaluates AI models on tasks drawn from 44 occupations, chosen by a documented rule: sectors
 above a 5% share of US GDP by value added, then, within each, the predominantly-digital occupations
 that contribute most to total wages and compensation. The rule was chosen for measurement reasons.

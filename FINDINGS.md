@@ -148,7 +148,7 @@ seeing the result.
 | All detailed occupations, excluding "All Other" | 20.0% |
 | Published "All Occupations" total row | 19.2% |
 
-GDPval's 44 occupations employ 29.7 million workers. Reading the headline GDPval
+GDPval's 44 occupations account for 29.7 million wage and salary jobs. Reading the headline GDPval
 score as an economy-wide signal implicitly treats these 44 occupations as
 representative of the roughly 81% of employment they do not cover. Coverage is the
 load-bearing number here. It is not the selection target, and because the wage-bill
@@ -288,7 +288,7 @@ split occupation that 2024 OEWS employs more in health-care settings than in rea
 estate; Child, Family, and School Social Workers (GDPval: Government) is modally in
 Social Assistance (NAICS 62), and the second case is a direct symptom of the
 narrow-Government soft-spot above. The population is 514 occupations, 95.4 million
-workers or about 62% of US employment, counting each occupation's full national
+wage and salary jobs or about 62% of US employment, counting each occupation's full national
 employment toward its modal sector (see the Method note above). The log is
 `outputs/modal_sector_assignment_log.md`.
 
@@ -300,7 +300,7 @@ holds under 40% of their employment, but most of those split between two of the 
 sectors, so membership does not change. The membership-relevant fragility is 5.8% of
 the denominator: 29 occupations are in the nine but have a runner-up sector outside
 it within 10 points, roughly offset by 22 occupations outside the nine (6.8 million
-workers) whose runner-up is inside. Flipping every one of them would move
+wage and salary jobs) whose runner-up is inside. Flipping every one of them would move
 within-sector coverage only within about 29% to 33%, so 31.1% is stable to roughly
 two points.
 
